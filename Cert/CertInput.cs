@@ -2,7 +2,7 @@ using System;
 
 namespace Cert
 {
-    public readonly struct CertRequest
+    public readonly struct CertInput
     {
         public string CommonName { get; init; }
         public string[] DnsNames { get; init; }

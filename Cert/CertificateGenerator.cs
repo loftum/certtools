@@ -8,7 +8,7 @@ namespace Cert
 {
     public static class CertificateGenerator
     {
-        public static X509Certificate2 CreateCa(CaRequest input)
+        public static X509Certificate2 CreateCa(CaInput input)
         {
             var sanBuilder = new SubjectAlternativeNameBuilder();
 
@@ -49,7 +49,7 @@ namespace Cert
             return certificate;
         }
         
-        public static X509Certificate2 CreateCertificate(CertRequest input)
+        public static X509Certificate2 CreateCertificate(CertInput input)
         {
             var sanBuilder = new SubjectAlternativeNameBuilder();
             if (input.DnsNames == null)

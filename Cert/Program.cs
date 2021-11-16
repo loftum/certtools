@@ -22,10 +22,10 @@ namespace Cert
                 {
                     case "ca":
                     {
-                        var input = new CaRequest
+                        var input = new CaInput
                         {
-                            CommonName = "nrk-innlogging-ca",
-                            Organization = "NRK",
+                            CommonName = "agurk-ca",
+                            Organization = "Agurk",
                             CountryCode = "NO",
                             NotBefore = DateTimeOffset.UtcNow,
                             NotAfter = DateTimeOffset.UtcNow.AddYears(5),
@@ -38,10 +38,10 @@ namespace Cert
                     }
                     case "generate":
                     {
-                        var input = new CertRequest
+                        var input = new CertInput
                         {
-                            CommonName = "nrk-innlogging-client",
-                            Organization = "NRK",
+                            CommonName = "agurk-client",
+                            Organization = "Agurk",
                             CountryCode = "NO",
                             NotBefore = DateTimeOffset.UtcNow,
                             NotAfter = DateTimeOffset.UtcNow.AddYears(5),

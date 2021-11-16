@@ -2,7 +2,7 @@ using System;
 
 namespace Cert
 {
-    public readonly struct CaRequest
+    public readonly struct CaInput
     {
         public string CommonName { get; init; }
         public DateTimeOffset NotBefore { get; init; }
