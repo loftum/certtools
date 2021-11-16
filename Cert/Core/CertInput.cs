@@ -1,6 +1,7 @@
 using System;
+using System.Security.Cryptography.X509Certificates;
 
-namespace Cert
+namespace Cert.Core
 {
     public readonly struct CertInput
     {
@@ -11,5 +12,6 @@ namespace Cert
         public string CountryCode { get; init; }
         public string Organization { get; init; }
         public string[] OrganizationalUnits { get; init; }
+        public X509Certificate2 Ca { get; init; }
     }
 }

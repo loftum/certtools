@@ -1,6 +1,6 @@
 using System;
 
-namespace Cert
+namespace Cert.Core
 {
     public readonly struct CaInput
     {

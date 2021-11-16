@@ -4,9 +4,9 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
-namespace Cert
+namespace Cert.Core
 {
-    public static class CertificateGenerator
+    public class CertificateGenerator
     {
         public static X509Certificate2 CreateCa(CaInput input)
         {
@@ -48,6 +48,8 @@ namespace Cert
             var certificate = request.CreateSelfSigned(input.NotBefore, input.NotAfter);
             return certificate;
         }
+        
+        
         
         public static X509Certificate2 CreateCertificate(CertInput input)
         {
@@ -95,8 +97,7 @@ namespace Cert
             request.CertificateExtensions.Add(new X509EnhancedKeyUsageExtension(new OidCollection { new Oid("1.3.6.1.5.5.7.3.1") }, false));
 
             request.CertificateExtensions.Add(sanBuilder.Build());
-
-            request.Create();
+            
             var certificate = request.CreateSelfSigned(input.NotBefore, input.NotAfter);
             return certificate;
         }
