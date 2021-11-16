@@ -1,0 +1,28 @@
+.idea/
+
+# ReSharper is a .NET coding add-in
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings
+*.DotSettings.user
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+publish/
+pack/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+
+*.orig
+
+*.pfx
+*.pem
+*.crt
+*.key
