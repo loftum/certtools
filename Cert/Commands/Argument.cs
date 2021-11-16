@@ -19,18 +19,20 @@ namespace Cert.Commands
         public Argument(int position, string raw)
         {
             Position = position;
-            if (!string.IsNullOrEmpty(raw))
+            if (string.IsNullOrEmpty(raw))
             {
-                if (raw.StartsWith("-"))
-                {
-                    var index = raw.IndexOf(":", StringComparison.InvariantCultureIgnoreCase);
-                    Name = index > 0 ? raw.Substring(1, index - 1) : raw.Substring(1);
-                    Value = index > 0 ? raw.Substring(index + 1) : null;
-                }
-                else
-                {
-                    Value = raw;
-                }
+                return;
+            }
+
+            if (raw.StartsWith("-"))
+            {
+                var index = raw.IndexOf(":", StringComparison.InvariantCultureIgnoreCase);
+                Name = index > 0 ? raw.Substring(1, index - 1) : raw.Substring(1);
+                Value = index > 0 ? raw.Substring(index + 1) : null;
+            }
+            else
+            {
+                Value = raw;
             }
         }
 

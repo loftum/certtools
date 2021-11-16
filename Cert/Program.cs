@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Cert.Commands;
-using Cert.Core;
 
 namespace Cert
 {
@@ -11,9 +10,14 @@ namespace Cert
         {
             try
             {
-                var commander = new Commander().RegisterStaticMethodsOf<CertificateGenerator>();
+                var commander = new Commander().RegisterStaticMethodsOf<CertificateCommands>();
                 commander.Execute(args);
                 return 0;
+            }
+            catch (ArgumentException e)
+            {
+                Console.WriteLine(e.Message);
+                return -1;
             }
             catch (Exception e)
             {

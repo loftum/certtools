@@ -12,7 +12,7 @@ namespace Cert.Commands
 
         public Commander()
         {
-            Commands = new Dictionary<string, Command>();
+            Commands = new Dictionary<string, Command>(StringComparer.OrdinalIgnoreCase);
         }
 
         public void Register(Command command)
@@ -61,7 +61,7 @@ namespace Cert.Commands
         public static Command FromMethod(MethodInfo method)
         {
             var parameters = method.GetParameters().Select(ParameterBuilder.FromParameter);
-            return new Command(method.Name.ToLowerInvariant(), arguments => method.Invoke(null, arguments), parameters);
+            return new Command(method.Name, arguments => method.Invoke(null, arguments), parameters);
         }
     }
 

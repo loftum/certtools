@@ -30,7 +30,7 @@ namespace Cert.Commands
                 throw new ArgumentException($"too many arguments. Usage: {this}");
             }
             Console.WriteLine($"{Name} {string.Join(" ", arguments.Cast<object>())}");
-            return Parameters.Select(a => a.GetValue(arguments)).ToArray();
+            return Parameters.Select(p => p.GetValue(arguments)).ToArray();
         }
 
         public override string ToString()

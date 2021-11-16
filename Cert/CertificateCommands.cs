@@ -32,7 +32,7 @@ namespace Cert
             File.WriteAllBytes(outPath, ca.Export(X509ContentType.Pfx));
         }
 
-        public static void CreateCertificate(string commonName,
+        public static void Create(string commonName,
             DateTimeOffset notBefore,
             DateTimeOffset notAfter,
             string organization,
@@ -42,7 +42,7 @@ namespace Cert
             string countryCode = "NO",
             string[] organizationalUnits = null)
         {
-            var caCert = ReadCert(caPath);
+            var caCert = ReadCertFile(caPath);
 
             var input = new CertInput
             {
@@ -61,7 +61,7 @@ namespace Cert
             File.WriteAllBytes(outPath, cert.Export(X509ContentType.Pfx));
         }
 
-        private static X509Certificate2 ReadCert(string path)
+        private static X509Certificate2 ReadCertFile(string path)
         {
             var bytes = File.ReadAllBytes(path);
             var cert = new X509Certificate2(bytes);
@@ -70,7 +70,7 @@ namespace Cert
 
         public static void Read(string file)
         {
-            var cert = ReadCert(file);
+            var cert = ReadCertFile(file);
 
             var builder = new StringBuilder()
                 .AppendLine($"Friendly name: {cert.FriendlyName}")

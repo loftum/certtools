@@ -29,7 +29,7 @@ namespace Cert.Core
 
             var distinguishedName = new X500DistinguishedName(dn.ToString());
 
-            using RSA rsa = RSA.Create(4096);
+            using var rsa = RSA.Create(4096);
             var request = new CertificateRequest(distinguishedName, rsa, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
 
             const X509KeyUsageFlags usages = X509KeyUsageFlags.DataEncipherment |
@@ -86,7 +86,7 @@ namespace Cert.Core
 
             var distinguishedName = new X500DistinguishedName(dn.ToString());
 
-            using RSA rsa = RSA.Create(4096);
+            using var rsa = RSA.Create(4096);
             var request = new CertificateRequest(distinguishedName, rsa, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
 
             const X509KeyUsageFlags usages = X509KeyUsageFlags.DataEncipherment | X509KeyUsageFlags.KeyEncipherment | X509KeyUsageFlags.DigitalSignature;
@@ -98,7 +98,9 @@ namespace Cert.Core
 
             request.CertificateExtensions.Add(sanBuilder.Build());
             
-            var certificate = request.CreateSelfSigned(input.NotBefore, input.NotAfter);
+            Span<byte> serialNumber = stackalloc byte[8];
+            RandomNumberGenerator.Fill(serialNumber);
+            var certificate = request.Create(input.Ca, input.NotBefore, input.NotAfter, serialNumber);
             return certificate;
         }
     }

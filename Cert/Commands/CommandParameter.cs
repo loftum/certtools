@@ -38,16 +38,32 @@ namespace Cert.Commands
         {
             switch (Type)
             {
-                case Type t when t == typeof(string):
+                case var t when t == typeof(string):
                     return argument.Value;
-                case Type t when t == typeof(bool):
+                case var t when t == typeof(bool):
                     if (argument.Value == null)
                     {
                         return argument.IsNamed;
                     }
                     return bool.TryParse(argument.Value, out var ret) && ret;
-                case Type t when t.IsEnum:
+                case var t when t.IsEnum:
                     return Enum.Parse(Type, argument.Value, true);
+                case var t when t == typeof(DateTimeOffset):
+                    return argument.Value switch
+                    {
+                        "now" => DateTimeOffset.Now,
+                        "utcnow" => DateTimeOffset.UtcNow,
+                        _ => DateTime.Parse(argument.Value)
+                    };
+                case var t when t == typeof(DateTime):
+                    return argument.Value switch
+                    {
+                        "now" => DateTime.Now,
+                        "utcnow" => DateTime.UtcNow,
+                        _ => DateTime.Parse(argument.Value)
+                    };
+                case var t when t == typeof(string[]):
+                    return argument.Value.Split(',');
                 default:
                     return Convert.ChangeType(argument.Value, Type);
             }
