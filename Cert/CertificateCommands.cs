@@ -27,12 +27,13 @@ namespace Cert
                 OrganizationalUnits = organizationalUnits
             };
             
-            var ca = CertificateGenerator.CreateCa(input);
+            using var ca = CertificateGenerator.CreateCa(input);
             
             File.WriteAllBytes(outPath, ca.Export(X509ContentType.Pfx));
         }
 
-        public static void Create(string commonName,
+        public static void Create(CertType type,
+            string commonName,
             DateTimeOffset notBefore,
             DateTimeOffset notAfter,
             string organization,
@@ -46,6 +47,7 @@ namespace Cert
 
             var input = new CertInput
             {
+                Type = type,
                 Organization = organization,
                 CommonName = commonName,
                 NotBefore = notBefore,
@@ -56,9 +58,16 @@ namespace Cert
                 Ca = caCert
             };
             
-            var cert = CertificateGenerator.CreateCertificate(input);
+            using var cert = CertificateGenerator.CreateCertificate(input);
             
             File.WriteAllBytes(outPath, cert.Export(X509ContentType.Pfx));
+        }
+
+        public static void Export(string inputPath, string outputPath)
+        {
+            using var cert = ReadCertFile(inputPath);
+            var bytes = cert.Export(X509ContentType.Cert);
+            File.WriteAllBytes(outputPath, bytes);
         }
 
         private static X509Certificate2 ReadCertFile(string path)
@@ -70,8 +79,9 @@ namespace Cert
 
         public static void Read(string file)
         {
-            var cert = ReadCertFile(file);
+            using var cert = ReadCertFile(file);
 
+            
             var builder = new StringBuilder()
                 .AppendLine($"Friendly name: {cert.FriendlyName}")
                 .AppendLine($"Thumbprint: {cert.Thumbprint}")
@@ -79,8 +89,8 @@ namespace Cert
                 .AppendLine($"Not before: {cert.NotBefore}")
                 .AppendLine($"Not after: {cert.NotAfter}")
                 .AppendLine($"Serial number: {cert.SerialNumber}")
-                .AppendLine($"Issuer: {cert.IssuerName.Name}")
-                .AppendLine($"Subject name: {cert.SubjectName.Name}")
+                .AppendLine($"Issuer: {cert.IssuerName.Format(true)}")
+                .AppendLine($"Subject name: {cert.SubjectName.Format(true)}")
                 .AppendLine($"Has private key: {cert.HasPrivateKey}")
                 ;
 
